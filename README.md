@@ -26,14 +26,13 @@ L'organisation des fichiers suit les dernières recommandations Angular :
    cd taskboard
 Installer les dépendances :
 
-Bash
-
-npm install
+`bash
+npm install`
 Lancer le serveur de développement :
 
-Bash
+`bash
+ng serve`
 
-ng serve
 Rendez-vous sur http://localhost:4200/.
 
 💡 Concepts clés utilisés

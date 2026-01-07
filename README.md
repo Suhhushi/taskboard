@@ -24,15 +24,15 @@ L'organisation des fichiers suit les dernières recommandations Angular :
    ```bash
    git clone <url-du-repo>
    cd taskboard
-Installer les dépendances :
-
-`bash
-npm install`
-Lancer le serveur de développement :
-
-`bash
-ng serve`
-
+   ```
+2. **Installer les dépendances** :
+  ```bash
+  npm install
+  ```
+3. **Lancer le serveur de développement** :
+  ```bash
+  ng serve
+  ```
 Rendez-vous sur http://localhost:4200/.
 
 💡 Concepts clés utilisés

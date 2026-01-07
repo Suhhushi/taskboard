@@ -1,1 +1,18 @@
-<p>home works!</p>
+<h2>Mes tâches</h2>
+
+<!-- Formulaire d'ajout -->
+<input #taskInput placeholder="Nouvelle tâche">
+<button (click)="addTask(taskInput.value); taskInput.value = ''">
+  Ajouter
+</button>
+
+<!-- Liste des tâches -->
+@if (tasks$ | async; as tasks) {
+  <ul>
+    @for (task of tasks; track task.id) {
+      <li>{{ task.title }}</li>
+    }
+  </ul>
+} @else {
+  <p>Chargement...</p>
+}

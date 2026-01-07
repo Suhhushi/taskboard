@@ -45,6 +45,7 @@ src/app/
 ├── app.component.ts    # Racine de l'application
 ├── app.component.routes.ts
 └── app.component.config.ts
+```
 
 ## 🛠️ Installation et Démarrage
 

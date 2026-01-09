@@ -1,12 +1,38 @@
+/* Import de la police Japonaise Noto Serif */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&display=swap');
+
+:root {
+  /* Palette Zen */
+  --bg-paper: #f9f7f2;      /* Papier Washi */
+  --ink-color: #2c3e50;     /* Encre Sumi */
+  --indigo: #394e6a;        /* Bleu Indigo traditionnel */
+  --bamboo: #d4a373;        /* Bois clair */
+  --red-seal: #b91c1c;      /* Rouge Hanko */
+  
+  /* Typographie */
+  --font-main: 'Noto Serif JP', serif;
+}
+
 body, html {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
+  height: 100%;
+  font-family: var(--font-main);
+  color: var(--ink-color);
+  
+  /* Texture de fond globale (Papier riz subtil) */
+  background-color: #e6e2d3;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-main {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Scrollbar personnalisée (plus élégante) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #e6e2d3;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--indigo);
+  border-radius: 4px;
 }

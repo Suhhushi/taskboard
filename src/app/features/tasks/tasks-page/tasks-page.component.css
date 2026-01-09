@@ -1,72 +1,318 @@
 :host {
-  --primary: #4f46e5;
-  --success: #10b981;
-  --bg: #f8fafc;
-  font-family: 'Inter', sans-serif;
+  --card-bg: #fff;
+  --indigo: #394e6a;
+  --gold: #f59e0b;
+  --red: #b91c1c;
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.container {
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: white;
+/* --- Layout Grille --- */
+.samurai-grid {
+  display: grid;
+  /* Grille responsive : autant de colonnes que possible, min 280px de large */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+/* --- La Carte Samouraï --- */
+.samurai-card {
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
+  overflow: hidden; /* Pour que l'image ne dépasse pas */
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  margin-bottom: 8px;
-  background: var(--bg);
-  border-radius: 8px;
-  transition: transform 0.1s;
-}
-
-li:hover {
-  transform: scale(1.02);
-}
-
-button {
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-soft);
   cursor: pointer;
+  user-select: none;
+  
+  /* Bordure décorative à gauche (style reliure japonaise) */
+  border-left: 6px solid var(--indigo);
+}
+
+.samurai-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Visuel (Image du haut) */
+.card-visual {
+  height: 120px;
+  background-color: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  /* Motif de fond japonais subtil (vagues) */
+  background-image: radial-gradient(#394e6a 1px, transparent 1px);
+  background-size: 10px 10px;
+  opacity: 0.9;
+}
+
+.samurai-img {
+  height: 90%;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+}
+
+.samurai-card:hover .samurai-img {
+  transform: scale(1.1) rotate(5deg); /* Petit effet zoom et rotation */
+}
+
+/* Contenu */
+.card-content {
+  padding: 1.2rem;
+  flex: 1; /* Pousse les actions vers le bas */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.2rem;
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+/* Badge Statut */
+.status-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #e0f2fe;
+  color: var(--indigo);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- Actions (Bas de carte) --- */
+.card-actions {
+  display: flex;
+  border-top: 1px solid #f3f4f6;
+}
+
+.action-btn {
+  flex: 1;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-weight: 500;
-  transition: filter 0.2s;
+  background: transparent;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+  border-right: 1px solid #f3f4f6;
 }
 
-.btn-highlight {
-  background: var(--primary);
-  color: white;
-  font-size: 0.8rem;
+.action-btn:last-child {
+  border-right: none;
 }
 
-.btn-add {
-  background: var(--success);
-  color: white;
-  width: 100%;
+.action-btn:hover {
+  background-color: #f9fafb;
+}
+
+/* Couleurs spécifiques au survol */
+.action-btn.gold:hover { color: var(--gold); background: #fffbeb; }
+.action-btn.red:hover { color: var(--red); background: #fef2f2; }
+.action-btn.ink:hover { color: var(--indigo); background: #eff6ff; }
+
+/* --- État "Terminé" (Vaincu) --- */
+.completed-card {
+  border-left-color: #9ca3af; /* Gris */
+  opacity: 0.8;
+}
+
+.completed-card .card-visual {
+  filter: grayscale(100%); /* Image en noir et blanc */
+  background-color: #e5e7eb;
+}
+
+.completed-card .task-title {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.completed-card .status-badge.done {
+  background-color: #d1d5db;
+  color: #4b5563;
+}
+
+/* Ajustements globaux (Header etc restants du code précédent) */
+.zen-container { padding: 40px; }
+.input-group-zen { max-width: 600px; margin: 0 auto 3rem auto; }
+
+/* ... (Garder les variables précédentes :host) ... */
+
+/* --- NOUVEAU FORMULAIRE (Style Parchemin) --- */
+.mission-scroll-form {
+  background: #fdfbf7;
+  border: 1px solid #d4a373;
+  border-top: 8px solid #d4a373; /* Bois en haut */
+  border-bottom: 8px solid #d4a373; /* Bois en bas */
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  position: relative;
+  text-align: center;
+}
+
+.mission-scroll-form h3 {
+  margin-top: 0;
+  color: var(--indigo);
+  font-family: var(--font-main);
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 10px;
+}
+
+.form-group { margin-bottom: 1rem; }
+
+.zen-input {
+  width: 90%;
   padding: 10px;
-  margin-top: 10px;
+  border: 1px solid #ddd;
+  background: rgba(255,255,255,0.8);
+  font-family: var(--font-main);
+  border-radius: 4px;
+  transition: all 0.3s;
 }
 
-button:hover {
-  filter: brightness(1.1);
+.zen-input:focus {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 3px rgba(57, 78, 106, 0.1);
+  outline: none;
 }
 
-.dynamic-zone {
-  min-height: 80px;
-  border: 2px dashed #e2e8f0;
-  border-radius: 8px;
+.title-input { font-size: 1.1rem; font-weight: bold; }
+.desc-input { resize: vertical; font-size: 0.9rem; }
+
+.btn-hanko-large {
+  background-color: var(--red-seal);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px; /* Oblongue comme un sceau */
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(185, 28, 28, 0.3);
+  transition: transform 0.1s;
+  letter-spacing: 1px;
+}
+.btn-hanko-large:hover { background-color: #991b1b; }
+.btn-hanko-large:active { transform: scale(0.95); }
+
+
+/* --- DESCRIPTION DANS LA CARTE --- */
+.task-desc {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  margin: 5px 0 15px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limite à 3 lignes */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+/* --- ILLUMINATION (Highlight) --- */
+/* Quand isHighlighted est true */
+.illuminated-card {
+  border-color: var(--gold);
+  border-left: 6px solid var(--gold);
+  /* L'effet de halo doré */
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4), 0 0 5px rgba(245, 158, 11, 0.2);
+  transform: translateY(-5px); /* Légèrement soulevée */
+  z-index: 10;
+  animation: pulseGlow 3s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+  to { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+}
+
+/* Aura visuelle sur l'image */
+.glow-aura {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.active-star {
+  text-shadow: 0 0 5px var(--gold);
+  transform: scale(1.2);
+}
+
+/* --- OVERLAY EDIT --- */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(2px);
+}
+
+/* --- Notification Flottante (Style Décret Impérial) --- */
+.notification-scroll {
+  /* 1. Positionnement Fixe : Reste visible même si on scrolle */
+  position: fixed;
+  top: 80px; /* Un peu en dessous de la Navbar */
+  right: 20px;
+  z-index: 9999; /* Au-dessus de TOUT (même les modales) */
+
+  /* 2. Style Visuel */
+  background-color: #394e6a; /* Fond Indigo profond */
+  color: #fff; /* Texte blanc */
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 500;
+  
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  
+  /* Bordure gauche rouge (Rappel du sceau) */
+  border-left: 6px solid #b91c1c; 
+  
+  /* Ombre portée pour l'effet de flottement */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  
+  /* Flexbox pour aligner l'icône et le texte */
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #fdfdfd;
+  gap: 12px;
+  
+  /* Animation */
+  animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none; /* Permet de cliquer à travers si besoin (optionnel) */
+}
+
+.notification-scroll .symbol {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+}
+
+/* Animation d'entrée depuis la droite avec un petit effet de rebond */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%); /* Part de l'extérieur droit */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /* Arrive à sa place */
+  }
 }

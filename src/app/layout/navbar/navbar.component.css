@@ -1,38 +1,61 @@
-.navbar {
+.zen-nav {
+  background-color: var(--indigo);
+  color: #fff;
+  padding: 0 2rem;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
-  background-color: #ffffff;
-  height: 64px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border-bottom: 4px solid var(--bamboo); /* Touche de bois */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1976d2;
-}
-
-.nav-links {
+/* Marque / Logo */
+.nav-brand {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: default;
+}
+
+.logo-symbol {
+  font-size: 1.8rem;
+}
+
+/* Liens */
+.nav-links {
   list-style: none;
-  gap: 1.5rem;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-links a {
+.nav-links li a {
   text-decoration: none;
-  color: #555;
-  font-weight: 500;
-  transition: color 0.3s;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s, border-bottom 0.3s;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
 }
 
-.nav-links a:hover {
-  color: #1976d2;
+.nav-links li a:hover {
+  color: #fff;
+  border-bottom-color: var(--bamboo);
 }
 
-.active {
-  color: #1976d2 !important;
-  border-bottom: 2px solid #1976d2;
-  padding-bottom: 4px;
+/* Lien Actif (Angular routerLinkActive) */
+.nav-links li a.active-link {
+  color: #fff;
+  border-bottom-color: var(--red-seal); /* Souligné rouge quand actif */
+  font-weight: bold;
 }

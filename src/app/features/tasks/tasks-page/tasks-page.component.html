@@ -1,30 +1,104 @@
-<div class="container">
-  <h2>Liste des tâches</h2>
+<div class="zen-container">
   
-  @if (tasks$ | async; as tasks) {
-    <ul>
-      @for (t of tasks; track t.id) {
-        <li>
-          <span>{{ t.title }}</span>
-          <button type="button" class="btn-highlight" (click)="highlight(t)">
-            Mettre en avant
-          </button>
-        </li>
-      }
-    </ul>
-  } @else {
-    <p class="loading">Chargement des tâches...</p>
-  }
+  <div class="notification-scroll" *ngIf="notification$ | async as msg">
+    <span class="symbol">🀄</span> {{ msg }}
+  </div>
 
-  <div class="actions">
-    <button class="btn-add" (click)="onAddDefaultTask()">
-        + Ajouter une tâche
+  <header class="header-section">
+    <h1>Dōjō des Tâches</h1>
+    <p class="subtitle">La clarté de l'esprit précède l'action</p>
+  </header>
+
+  <app-task-stats></app-task-stats>
+
+  <div class="mission-scroll-form">
+    <h3>📜 Nouvel Ordre de Mission</h3>
+    
+    <div class="form-group">
+      <input type="text" 
+             [(ngModel)]="newTask.title" 
+             (keyup.enter)="addTask()"
+             placeholder="Titre de la mission..." 
+             class="zen-input title-input">
+    </div>
+    
+    <div class="form-group">
+      <textarea [(ngModel)]="newTask.description" 
+                (keydown.control.enter)="addTask()"
+                placeholder="Détails stratégiques (optionnel)..." 
+                rows="2" 
+                class="zen-input desc-input"></textarea>
+    </div>
+
+    <button class="btn-hanko-large" (click)="addTask()">
+      SCELLER L'ORDRE
     </button>
   </div>
 
-  <hr />
+  <div class="modal-overlay" *ngIf="editingTask">
+    <app-task-edit 
+      [initialTitle]="editingTask.title" 
+      [initialDescription]="editingTask.description || ''"
+      (saveTask)="onSaveEdit($event)"
+      (cancel)="cancelEdit()">
+    </app-task-edit>
+  </div>
 
-  <h3>Mise en avant</h3>
-  <div #highlightContainer class="dynamic-zone">
+  <div class="samurai-grid">
+    <div *ngFor="let task of tasks$ | async" 
+         class="samurai-card" 
+         (click)="toggleComplete(task.id)"
+         [class.completed-card]="task.completed"
+         [class.illuminated-card]="task.isHighlighted"> 
+         
+      <div class="card-visual">
+        <img [src]="'https://api.dicebear.com/9.x/adventurer/svg?seed=' + task.id + '&backgroundColor=b6e3f4,c0aede,d1d4f9'" 
+             alt="Samurai Avatar" 
+             class="samurai-img">
+        <div class="glow-aura" *ngIf="task.isHighlighted"></div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="task-title">
+          {{ task.title }}
+        </h3>
+        
+        <p class="task-desc" *ngIf="task.description">
+          {{ task.description }}
+        </p>
+
+        <div class="tags">
+          <span class="status-badge" [class.done]="task.completed">
+            {{ task.completed ? 'Vaincu' : 'En cours' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="action-btn gold" 
+                (click)="toggleHighlight(task.id); $event.stopPropagation()" 
+                [class.active-star]="task.isHighlighted"
+                title="Illuminer (Priorité)">
+          {{ task.isHighlighted ? '🌟' : '⭐' }}
+        </button>
+        
+        <button class="action-btn ink" 
+                (click)="startEdit(task); $event.stopPropagation()" 
+                title="Stratégie">
+          ✒️
+        </button>
+        
+        <button class="action-btn red" 
+                (click)="deleteTask(task.id); $event.stopPropagation()" 
+                title="Exécuter">
+          ⚔️
+        </button>
+      </div>
+
     </div>
+  </div>
+  
+  <div class="footer-decoration">
+    <span class="wave-pattern"></span>
+  </div>
 </div>

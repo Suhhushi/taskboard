@@ -1,18 +1,12 @@
-<nav class="navbar">
-  <div class="logo">MonProjet</div>
+<nav class="zen-nav">
+  <div class="nav-brand">
+    <span class="logo-symbol">⛩️</span>
+    <span class="brand-text">TaskMaster</span>
+  </div>
+  
   <ul class="nav-links">
-    <li>
-      <a routerLink="/" 
-         routerLinkActive="active" 
-         [routerLinkActiveOptions]="{exact: true}">Accueil</a>
-    </li>
-    <li>
-      <a routerLink="/about" 
-         routerLinkActive="active">À propos</a>
-    </li>
-    <li>
-      <a routerLink="/tasks" 
-         routerLinkActive="active">Tâches</a>
-    </li>
+    <li><a routerLink="/home" routerLinkActive="active-link">Accueil</a></li>
+    <li><a routerLink="/tasks" routerLinkActive="active-link">Tâches</a></li>
+    <li><a routerLink="/about" routerLinkActive="active-link">À propos</a></li>
   </ul>
 </nav>

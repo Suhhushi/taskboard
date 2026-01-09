@@ -1,0 +1,22 @@
+<div class="stats-card" *ngIf="stats$ | async as stats">
+  
+  <div class="stat-item">
+    <span class="stat-value">{{ stats.total }}</span>
+    <span class="stat-label">Total Missions</span>
+  </div>
+
+  <div class="separator"></div>
+
+  <div class="stat-item active">
+    <span class="stat-value">{{ stats.active }}</span>
+    <span class="stat-label">En Combat</span>
+  </div>
+
+  <div class="separator"></div>
+
+  <div class="stat-item completed">
+    <span class="stat-value">{{ stats.completed }}</span>
+    <span class="stat-label">Vaincus ({{ stats.percent }}%)</span>
+  </div>
+
+</div>

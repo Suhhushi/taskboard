@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  margin-bottom: 2rem;
+  font-family: 'Noto Serif JP', serif;
+}
+
+.stats-card {
+  background: #fff; /* Fond papier blanc */
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  
+  /* Style Zen : Bordure Indigo en haut, Ombre douce */
+  border-top: 5px solid #394e6a; 
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  position: relative;
+}
+
+/* Les blocs individuels */
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+}
+
+/* Les Chiffres (Gros et stylés) */
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 5px;
+  color: #2c3e50; /* Encre par défaut */
+}
+
+/* Les Libellés (Petits et discrets) */
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #9ca3af;
+  font-family: sans-serif;
+}
+
+/* --- Couleurs Spécifiques --- */
+
+/* En cours (Or/Combat) */
+.stat-item.active .stat-value {
+  color: #d97706; /* Bambou/Or foncé */
+}
+
+/* Terminées (Indigo/Victoire) */
+.stat-item.completed .stat-value {
+  color: #394e6a; /* Indigo */
+}
+.stat-item.completed .stat-label {
+  color: #394e6a;
+  opacity: 0.7;
+}
+
+/* --- Séparateurs verticaux --- */
+.separator {
+  width: 1px;
+  height: 40px;
+  background: #e5e7eb; /* Gris très clair */
+  transform: rotate(15deg); /* Petite inclinaison dynamique */
+}
+
+/* Responsive : Empiler sur mobile */
+@media (max-width: 500px) {
+  .stats-card {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .separator {
+    width: 50%;
+    height: 1px;
+    transform: rotate(0);
+  }
+}

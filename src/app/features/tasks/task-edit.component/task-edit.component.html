@@ -1,0 +1,26 @@
+<div class="zen-edit-card">
+  <div class="header-decoration"></div>
+  
+  <h4>✒️ Réviser la Stratégie</h4>
+  
+  <div class="form-group">
+    <label>Objectif (Titre)</label>
+    <input [(ngModel)]="newTitle" 
+           type="text" 
+           class="zen-input title-input" 
+           placeholder="Nom de la mission..." />
+  </div>
+
+  <div class="form-group">
+    <label>Détails (Description)</label>
+    <textarea [(ngModel)]="newDescription" 
+              rows="4" 
+              class="zen-input desc-input" 
+              placeholder="Détails tactiques..."></textarea>
+  </div>
+
+  <div class="edit-actions">
+    <button class="btn-cancel" (click)="cancel.emit()">Annuler</button>
+    <button class="btn-save" (click)="save()">Sceller</button>
+  </div>
+</div>

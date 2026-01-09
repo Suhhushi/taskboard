@@ -1,16 +1,17 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home-page/home.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { 
-    path: 'tasks', 
-    loadChildren: () => import('./features/tasks/routes')
-      .then(m => m.TASKS_ROUTES)
+    path: 'home', 
+    loadComponent: () => import('./features/home-page/home.component').then(m => m.HomeComponent) 
   },
   { 
     path: 'about', 
-    loadChildren: () => import('./features/about-page/routes')
-      .then(m => m.ABOUT_ROUTES)
+    loadComponent: () => import('./features/about-page/about.component').then(m => m.AboutComponent) 
+  },
+  { 
+    path: 'tasks', 
+    loadComponent: () => import('./features/tasks/tasks-page/tasks-page.component').then(m => m.TasksPageComponent) 
   }
 ];

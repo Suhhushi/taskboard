@@ -1,9 +1,16 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './features/home-page/home.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: '**', redirectTo: '' }
+  { 
+    path: 'tasks', 
+    loadChildren: () => import('./features/tasks/routes')
+      .then(m => m.TASKS_ROUTES)
+  },
+  { 
+    path: 'about', 
+    loadChildren: () => import('./features/about-page/routes')
+      .then(m => m.ABOUT_ROUTES)
+  }
 ];

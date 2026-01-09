@@ -1,0 +1,72 @@
+:host {
+  --primary: #4f46e5;
+  --success: #10b981;
+  --bg: #f8fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+.container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: var(--bg);
+  border-radius: 8px;
+  transition: transform 0.1s;
+}
+
+li:hover {
+  transform: scale(1.02);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 500;
+  transition: filter 0.2s;
+}
+
+.btn-highlight {
+  background: var(--primary);
+  color: white;
+  font-size: 0.8rem;
+}
+
+.btn-add {
+  background: var(--success);
+  color: white;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.dynamic-zone {
+  min-height: 80px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fdfdfd;
+}

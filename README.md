@@ -6,9 +6,9 @@ Ce projet est une application de gestion de tâches développée avec **Angular 
 
 ## Procédure de travail (Git)
 Pour ce TP, la gestion des branches a été effectuée comme suit :
-1. **Création de la branche** : `git checkout -b sequence-2-rxjs`
+1. **Création de la branche** : `git checkout -b Lazy-Highlight`
 2. **Sauvegarde** : `git add .`
-3. **Commit** : `git commit -m "Mise en place de la réactivité avec RxJS"`
+3. **Commit** : `git commit -m "Implémentation Lazy Loading, Composants dynamiques et Bonus RxJS"`
 
 ---
 
@@ -32,7 +32,35 @@ Implémentation de la logique métier et gestion de l'état des données avec le
 2.  **Composant** : Le `HomeComponent` injecte le service et récupère la référence du flux `tasks$` sans y souscrire manuellement dans le code TypeScript.
 3.  **Template** : Le HTML utilise `tasks$ | async`. Dès que la méthode `addTask()` est appelée dans le service, le `BehaviorSubject` émet une nouvelle liste, et le template se met à jour instantanément.
 
+---
 
+## TP3 : Lazy Loading & Composants Dynamiques
+Optimisation des performances et amélioration de l'expérience utilisateur avec des fonctionnalités avancées.
+
+### Concepts Théoriques
+* **Lazy Loading (Chargement fainéant)** : C'est une technique d'optimisation qui consiste à ne charger les fichiers JavaScript d'une page (ou fonctionnalité) que lorsque l'utilisateur navigue dessus (via `loadComponent`). Cela allège le démarrage de l'application.
+* **Architecture Features** : Structurer l'application par "fonctionnalités" (ex: dossier `/tasks`, dossier `/about`) plutôt que par type technique. Cela rend le code plus modulaire, maintenable et facilite le Lazy Loading.
+* **Composant Dynamique** : C'est un composant qui n'est pas écrit "en dur" dans le HTML, mais qui peut être instancié ou affiché programmatiquement selon des conditions logiques.
+* **ViewContainerRef & createComponent()** :
+    * `ViewContainerRef` représente un emplacement dans le DOM (souvent attaché à une balise `<ng-container>`) où l'on peut insérer des vues.
+    * `createComponent()` est la méthode qui permet d'instancier une classe de composant Angular et de l'injecter dynamiquement dans ce conteneur.
+
+### Fonctionnalités Bonus Implémentées (Theme "Samouraï") 🏯
+L'application a été enrichie avec une interface utilisateur thématique et des opérateurs RxJS avancés :
+
+#### 1. UI/UX Avancée
+* **Design System** : Thème Zen/Papier de riz, typographie "Noto Serif JP".
+* **Interactions** : Cartes cliquables, effet "Glow" sur les tâches prioritaires, animations CSS.
+* **Formulaire Riche** : Saisie du titre et description, validation avec `Enter` et `Ctrl+Enter`.
+
+#### 2. RxJS Avancé (`map` & `tap`)
+* **Opérateur `map()`** : Utilisé à deux niveaux :
+    * *Dans le Service* : Pour trier automatiquement les tâches (les tâches "Illuminées/Prioritaires" remontent automatiquement en haut de la liste).
+    * *Dans les Stats* : Pour transformer le tableau de tâches en un objet de statistiques (Total, En cours, Terminées, %).
+* **Opérateur `tap()`** : Utilisé dans le `TaskService` pour déclencher des effets de bord (logs) sans modifier le flux de données.
+
+#### 3. Notifications & Feedback
+* **Service de Notification** : Un `NotificationService` injecté globalement affiche des messages flottants (Toasts) à chaque action (Ajout, Suppression, Modification).
 
 ---
 
@@ -40,14 +68,19 @@ Implémentation de la logique métier et gestion de l'état des données avec le
 ```text
 src/app/
 ├── core/
-│   └── services/       # Logique métier (TaskService)
+│   └── services/       
+│       ├── task.service.ts         # Logique métier + RxJS (map, tap)
+│       └── notification.service.ts # Gestion des alertes
+├── features/
+│   ├── about/                      # Chargé en Lazy Loading
+│   └── tasks/                      # Feature principale (Lazy Loading)
+│       ├── tasks-page/             # Composant intelligent (Smart Component)
+│       ├── task-stats/             # Composant de présentation (Stats)
+│       └── task-edit/              # Composant Modale (Édition)
 ├── layout/
-│   └── navbar/         # Composant de navigation
-├── home/               # Page principale (Gestion des tâches)
-├── about/              # Page d'information
-├── app.component.ts    # Racine de l'application
-├── app.component.routes.ts
-└── app.component.config.ts
+│   └── navbar/                     # Composant de navigation
+├── app.routes.ts                   # Configuration du Lazy Loading
+└── app.component.ts                # Racine
 ```
 
 ## 🛠️ Installation et Démarrage

@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Liste des tâches</h2>
+  
+  @if (tasks$ | async; as tasks) {
+    <ul>
+      @for (t of tasks; track t.id) {
+        <li>
+          <span>{{ t.title }}</span>
+          <button type="button" class="btn-highlight" (click)="highlight(t)">
+            Mettre en avant
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="loading">Chargement des tâches...</p>
+  }
+
+  <div class="actions">
+    <button class="btn-add" (click)="onAddDefaultTask()">
+        + Ajouter une tâche
+    </button>
+  </div>
+
+  <hr />
+
+  <h3>Mise en avant</h3>
+  <div #highlightContainer class="dynamic-zone">
+    </div>
+</div>

@@ -1,101 +1,140 @@
-# 📝 Taskboard - Suivi des TPs Angular v20
+# 🏯 TaskBoard Pro - Angular Modern Edition
 
-Ce projet est une application de gestion de tâches développée avec **Angular v20**. L'architecture repose entièrement sur des **Composants Standalone**.
+Ce projet est la réalisation du fil rouge "TaskBoard Pro". Il s'agit d'une application de gestion de tâches (To-Do List) développée avec **Angular (v17+)**.
 
----
-
-## Procédure de travail (Git)
-Pour ce TP, la gestion des branches a été effectuée comme suit :
-1. **Création de la branche** : `git checkout -b Lazy-Highlight`
-2. **Sauvegarde** : `git add .`
-3. **Commit** : `git commit -m "Implémentation Lazy Loading, Composants dynamiques et Bonus RxJS"`
+L'application respecte les consignes des TP 1, 2 et 3 tout en intégrant une architecture **Full Standalone** et une gestion d'état hybride (**RxJS + Signals**).
 
 ---
 
-## TP1 : Architecture et Routage
-Mise en place de la structure de base et de la navigation.
-- **Architecture Standalone** : Utilisation de `bootstrapApplication` sans `AppModule`.
-- **Routage Dynamique** : Navigation entre l'Accueil (`/`) et la page À propos (`/about`).
-- **Navbar Réutilisable** : Composant isolé avec gestion automatique des liens actifs via `RouterLinkActive`.
+## 🚀 Installation et Démarrage
+
+1. **Cloner le projet** :
+```bash
+git clone <url-du-repo>
+cd taskboard-pro
+
+```
+
+
+2. **Installer les dépendances** :
+```bash
+npm install
+
+```
+
+
+3. **Lancer le serveur** :
+```bash
+ng serve
+
+```
+
+
+L'application sera accessible sur `http://localhost:4200/`.
 
 ---
 
-## TP2 : Réactivité avec RxJS
-Implémentation de la logique métier et gestion de l'état des données avec les Observables.
+## 🛠️ TP 1 : Architecture et Routing
 
-### Notions clés comprises
-* **BehaviorSubject** : C'est un type d'Observable qui garde toujours en mémoire la **dernière valeur** émise. Lorsqu'un composant s'y abonne, il reçoit immédiatement la valeur actuelle. C'est l'outil idéal pour gérer un état (comme une liste de tâches) qui évolue dans le temps.
-* **Le Pipe `| async`** : Il permet de s'abonner automatiquement à un Observable directement depuis le template HTML. Il gère aussi le désabonnement automatique quand le composant est détruit, évitant ainsi les fuites de mémoire.
+Mise en place du squelette de l'application et de la navigation.
 
-### Flux de données (Service ➔ Composant ➔ Template)
-1.  **Service** : Le `TaskService` détient la source de vérité (`BehaviorSubject`). Il expose cette donnée sous forme d'Observable (`tasks$`).
-2.  **Composant** : Le `HomeComponent` injecte le service et récupère la référence du flux `tasks$` sans y souscrire manuellement dans le code TypeScript.
-3.  **Template** : Le HTML utilise `tasks$ | async`. Dès que la méthode `addTask()` est appelée dans le service, le `BehaviorSubject` émet une nouvelle liste, et le template se met à jour instantanément.
+* **Architecture** : Projet généré en mode **Standalone** (pas de `AppModule`).
+* **Routing** :
+* La route `/` charge le composant `Home` (ou redirection vers `/tasks`).
+* La route `/about` charge le composant `About`.
 
----
 
-## TP3 : Lazy Loading & Composants Dynamiques
-Optimisation des performances et amélioration de l'expérience utilisateur avec des fonctionnalités avancées.
+* **Navigation** : Utilisation de `routerLink` et `routerLinkActive` pour gérer le menu et la classe CSS active.
 
-### Concepts Théoriques
-* **Lazy Loading (Chargement fainéant)** : C'est une technique d'optimisation qui consiste à ne charger les fichiers JavaScript d'une page (ou fonctionnalité) que lorsque l'utilisateur navigue dessus (via `loadComponent`). Cela allège le démarrage de l'application.
-* **Architecture Features** : Structurer l'application par "fonctionnalités" (ex: dossier `/tasks`, dossier `/about`) plutôt que par type technique. Cela rend le code plus modulaire, maintenable et facilite le Lazy Loading.
-* **Composant Dynamique** : C'est un composant qui n'est pas écrit "en dur" dans le HTML, mais qui peut être instancié ou affiché programmatiquement selon des conditions logiques.
-* **ViewContainerRef & createComponent()** :
-    * `ViewContainerRef` représente un emplacement dans le DOM (souvent attaché à une balise `<ng-container>`) où l'on peut insérer des vues.
-    * `createComponent()` est la méthode qui permet d'instancier une classe de composant Angular et de l'injecter dynamiquement dans ce conteneur.
+**Commande utilisée** :
 
-### Fonctionnalités Bonus Implémentées (Theme "Samouraï") 🏯
-L'application a été enrichie avec une interface utilisateur thématique et des opérateurs RxJS avancés :
+```bash
+ng new taskboard-pro --style=css
 
-#### 1. UI/UX Avancée
-* **Design System** : Thème Zen/Papier de riz, typographie "Noto Serif JP".
-* **Interactions** : Cartes cliquables, effet "Glow" sur les tâches prioritaires, animations CSS.
-* **Formulaire Riche** : Saisie du titre et description, validation avec `Enter` et `Ctrl+Enter`.
-
-#### 2. RxJS Avancé (`map` & `tap`)
-* **Opérateur `map()`** : Utilisé à deux niveaux :
-    * *Dans le Service* : Pour trier automatiquement les tâches (les tâches "Illuminées/Prioritaires" remontent automatiquement en haut de la liste).
-    * *Dans les Stats* : Pour transformer le tableau de tâches en un objet de statistiques (Total, En cours, Terminées, %).
-* **Opérateur `tap()`** : Utilisé dans le `TaskService` pour déclencher des effets de bord (logs) sans modifier le flux de données.
-
-#### 3. Notifications & Feedback
-* **Service de Notification** : Un `NotificationService` injecté globalement affiche des messages flottants (Toasts) à chaque action (Ajout, Suppression, Modification).
+```
 
 ---
 
-## Structure finale du projet
+## 🔄 TP 2 : Logique Réactive (RxJS)
+
+Implémentation du cœur réactif de l'application via le pattern **Service-as-a-Source-of-Truth**.
+
+### 1. Structure du flux de données
+
+* **Service (`TaskService`)** : Il détient un `BehaviorSubject` privé qui contient la liste brute des tâches. C'est la source de vérité unique.
+* **Exposition** : Les données sont exposées via un Observable public `tasks$` (pour respecter le TP) qui est ensuite converti en **Signal** dans le composant pour une meilleure performance.
+
+### 2. Méthodes implémentées
+
+* `addTask(title, description)` : Ajoute une tâche et émet la nouvelle liste via `.next()`.
+* `deleteTask(id)` : Filtre la liste pour retirer l'élément ciblé et met à jour le flux.
+* **Mise à jour Vue** : Grâce à la réactivité, aucune méthode `getTasks()` n'est appelée manuellement. La vue se met à jour automatiquement dès que le flux change.
+
+---
+
+## 📦 TP 3 : Lazy Loading & Fonctionnalités Avancées
+
+C'est dans cette séquence que l'application devient performante et riche en fonctionnalités.
+
+### 1. Lazy Loading (Chargement Fainéant)
+
+Le Lazy Loading est une technique d'optimisation. Au lieu de charger toute l'application d'un coup, Angular ne charge le code JavaScript des fonctionnalités (ex: `/tasks` ou `/about`) **que lorsque l'utilisateur navigue dessus**.
+
+**Implémentation dans `app.routes.ts**` :
+
+```typescript
+{
+  path: 'tasks',
+  loadComponent: () => import('./features/tasks/tasks-page.component').then(m => m.TasksPageComponent)
+}
+
+```
+
+### 2. Composants Dynamiques & Structure Features
+
+L'application est structurée par "fonctionnalités" (`features/`) plutôt que par type technique.
+
+* **Formulaire d'ajout** : Utilisation du `[(ngModel)]` pour lier l'input au code (Two-Way Binding) et validation avec la touche `Enter`.
+* **Composant Edit (Modale)** : Un composant `TaskEdit` est injecté dynamiquement dans le DOM (via le Control Flow `@if`) lorsqu'une tâche est en cours d'édition.
+
+### 3. Fonctionnalités Bonus (Implémentées) 🌟
+
+* **✅ Marquer comme terminée** : Bascule un booléen `completed` et applique un style barré/grisé.
+* **📊 Statistiques (`map`)** : Un composant dédié calcule en temps réel le total, le nombre de tâches actives et terminées.
+* **🔔 Notifications (`tap`)** : Utilisation de l'opérateur `tap` dans le service pour déclencher des effets de bord (Toasts/Notifications) sans altérer le flux de données.
+* **🏯 Thème "Ronin"** : Interface utilisateur soignée avec animations et design system cohérent.
+
+---
+
+## 📂 Structure du Projet
+
 ```text
 src/app/
 ├── core/
-│   └── services/       
-│       ├── task.service.ts         # Logique métier + RxJS (map, tap)
-│       └── notification.service.ts # Gestion des alertes
+│   └── services/        
+│       ├── task.service.ts         # Logique métier + RxJS (Subject, map, tap)
+│       └── notification.service.ts # Service de feedback
 ├── features/
-│   ├── about/                      # Chargé en Lazy Loading
-│   └── tasks/                      # Feature principale (Lazy Loading)
-│       ├── tasks-page/             # Composant intelligent (Smart Component)
+│   ├── about/                      # Page "À propos" (Lazy Loaded)
+│   └── tasks/                      # Feature principale (Lazy Loaded)
+│       ├── tasks-page/             # Smart Component (Gestionnaire)
 │       ├── task-stats/             # Composant de présentation (Stats)
-│       └── task-edit/              # Composant Modale (Édition)
+│       └── task-edit/              # Modale d'édition
 ├── layout/
-│   └── navbar/                     # Composant de navigation
+│   └── navbar/                     # Navigation globale
 ├── app.routes.ts                   # Configuration du Lazy Loading
-└── app.component.ts                # Racine
+└── app.component.ts                # Racine (Router Outlet)
+
 ```
 
-## 🛠️ Installation et Démarrage
+---
 
-1. **Cloner le projet** :
-   ```bash
-   git clone <url-du-repo>
-   cd taskboard
-   ```
-2. **Installer les dépendances** :
-  ```bash
-  npm install
-  ```
-3. **Lancer le serveur de développement** :
-  ```bash
-  ng serve
-  ```
-Rendez-vous sur http://localhost:4200/.
+## 📝 Bilan Technique
+
+| Concept | Implémentation dans ce projet |
+| --- | --- |
+| **Store** | `BehaviorSubject` (RxJS) dans `TaskService` |
+| **Consommation** | `toSignal` (Angular Interop) pour transformer le flux RxJS en Signal |
+| **Templates** | Nouvelle syntaxe Control Flow (`@if`, `@for`) |
+| **Injection** | Fonction `inject()` (plus moderne que le constructeur) |
+| **Styles** | CSS Scoped & Design System personnalisé |

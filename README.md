@@ -180,6 +180,37 @@ ng test --code-coverage    # Générer le rapport de couverture (dossier /covera
 * **Code coverage** : Excellent (Logique critique couverte).
 * **Temps d'exécution** : < 0.5 secondes.
 
+## TP 5 : Performance & Sécurité
+
+Optimisation finale de l'application pour la production.
+
+### Optimisations Performance
+
+1. **ChangeDetectionStrategy.OnPush** : Activé sur tous les composants (`TasksPage`, `TaskStats`, `TaskEdit`).
+* *Gain* : Réduction drastique des cycles de vérification. Angular ne recalcule la vue que si un Signal change ou qu'un Input est modifié.
+
+
+2. **Tracking (`@for`)** : Utilisation systématique de `track task.id` dans les boucles.
+* *Gain* : Angular ne détruit/recrée pas les éléments du DOM si la liste change d'ordre, il déplace juste les nœuds existants.
+
+
+3. **Audit Lighthouse** :
+* Score Performance : **95+/100** (grâce au Lazy Loading et au code minimaliste).
+
+### Audit Sécurité
+
+1. **Test XSS** : Tentative d'injection de `<script>alert(1)</script>` dans le titre d'une tâche.
+* *Résultat* : Angular échappe automatiquement les caractères spéciaux via l'interpolation `{{ }}`. Le script est affiché comme texte et n'est pas exécuté.
+
+
+2. **Interdiction de `innerHTML**` : Audit du code (Ctrl+F) pour vérifier qu'aucun `[innerHTML]` n'est utilisé sans `DomSanitizer`.
+3. **Content Security Policy (CSP)** : Ajout d'une balise `<meta>` dans `index.html` pour restreindre les sources de scripts et d'images (autorisant uniquement DiceBear et Google Fonts).
+
+### Ce que j'ai retenu
+
+* **"Performance by default"** : Avec les Signals et `@for`, Angular est rapide, mais `OnPush` le rend "instantané".
+* **Sécurité** : Ne jamais faire confiance à l'utilisateur. Angular fait 90% du travail, mais la CSP ajoute la couche de blindage finale.
+
 ### 2. Composants Dynamiques & Structure Features
 
 L'application est structurée par "fonctionnalités" (`features/`) plutôt que par type technique.
@@ -187,16 +218,16 @@ L'application est structurée par "fonctionnalités" (`features/`) plutôt que p
 * **Formulaire d'ajout** : Utilisation du `[(ngModel)]` pour lier l'input au code (Two-Way Binding) et validation avec la touche `Enter`.
 * **Composant Edit (Modale)** : Un composant `TaskEdit` est injecté dynamiquement dans le DOM (via le Control Flow `@if`) lorsqu'une tâche est en cours d'édition.
 
-### 3. Fonctionnalités Bonus (Implémentées) 🌟
+### 3. Fonctionnalités Bonus (Implémentées)
 
-* **✅ Marquer comme terminée** : Bascule un booléen `completed` et applique un style barré/grisé.
-* **📊 Statistiques (`map`)** : Un composant dédié calcule en temps réel le total, le nombre de tâches actives et terminées.
-* **🔔 Notifications (`tap`)** : Utilisation de l'opérateur `tap` dans le service pour déclencher des effets de bord (Toasts/Notifications) sans altérer le flux de données.
-* **🏯 Thème "Ronin"** : Interface utilisateur soignée avec animations et design system cohérent.
+* ** Marquer comme terminée** : Bascule un booléen `completed` et applique un style barré/grisé.
+* ** Statistiques (`map`)** : Un composant dédié calcule en temps réel le total, le nombre de tâches actives et terminées.
+* ** Notifications (`tap`)** : Utilisation de l'opérateur `tap` dans le service pour déclencher des effets de bord (Toasts/Notifications) sans altérer le flux de données.
+* ** Thème "Ronin"** : Interface utilisateur soignée avec animations et design system cohérent.
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```text
 src/app/

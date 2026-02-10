@@ -90,6 +90,96 @@ Le Lazy Loading est une technique d'optimisation. Au lieu de charger toute l'app
 
 ```
 
+## 🧪 TP 4 : Tests Unitaires (Qualité & Robustesse)
+
+#### 1. Pourquoi tester ?
+
+* **Sécurité du Refactoring** : Les tests m'ont permis de passer de RxJS pur aux Signals sans casser la logique métier.
+* **Documentation vivante** : Un test décrit exactement comment un composant est censé fonctionner (ex: "Il ne doit pas sauvegarder si le titre est vide").
+* **Exemple concret** : J'ai rencontré l'erreur `NG0950: Input is required`. Grâce au test, j'ai compris que mon composant `TaskEdit` ne pouvait pas exister sans ses données initiales, ce qui m'a forcé à mieux gérer son cycle de vie.
+
+#### 2. Outils utilisés
+
+* **Jasmine** : Le framework pour écrire les scénarios (describe, it, expect).
+* **Karma** : Le moteur qui lance le navigateur (Chrome) pour exécuter le code.
+* **TestBed** : L'outil d'Angular pour créer un module de test dynamique et isoler le composant.
+
+#### 3. Concepts clés maîtrisés
+
+* **AAA Pattern** : *Arrange* (Préparer les données), *Act* (Cliquer/Exécuter), *Assert* (Vérifier le résultat).
+* **Mocks** : J'ai créé des faux services (`mockTaskService`) pour tester mes composants sans dépendre du vrai backend ou du vrai stockage.
+* **Spies** : J'ai utilisé `spyOn(window, 'confirm')` pour simuler le clic sur "OK" dans une boîte de dialogue native.
+* **Fixture & detectChanges()** : J'ai compris que modifier une variable TS ne met pas à jour le HTML automatiquement dans un test. Il faut appeler `fixture.detectChanges()` pour synchroniser le DOM.
+
+#### 4. Types de tests pratiqués
+
+* ✅ Test d'un service (`TaskService` : ajout, suppression, tri).
+* ✅ Test d'un composant avec `TestBed`.
+* ✅ Test des **Signals Inputs** (`input.required`).
+* ✅ Test des **Outputs** (Vérifier qu'un événement est bien émis vers le parent).
+* ✅ Test du DOM (Vérifier la présence de la classe `.completed-card`).
+
+#### 5. Erreurs courantes rencontrées
+
+* **Erreur `NG0950**` : Un `input.required()` n'avait pas de valeur au lancement du test.
+* *Solution* : Utiliser `fixture.componentRef.setInput('prop', value)` avant le premier `detectChanges`.
+
+
+* **Interactions HTML** : Le clic simulé ne déclenchait rien.
+* *Solution* : Utiliser `triggerEventHandler('click', null)` ou `nativeElement.click()`.
+
+#### 6. Commandes importantes
+
+```bash
+ng test                    # Lancer les tests en mode watch
+ng test --code-coverage    # Générer le rapport de couverture (dossier /coverage)
+
+```
+
+#### 7. Code Coverage atteint
+
+* **Objectif** : > 80%
+* **Mon résultat** : **100%** sur `TaskEditComponent` (tous les cas limites testés : vide, valide, annulation).
+
+#### 8. Difficultés rencontrées et solutions
+
+| Difficulté | Solution trouvée |
+| --- | --- |
+| Tester un `input.required()` (Signals) | J'ai appris qu'on ne peut pas juste faire `comp.prop = val`. Il faut utiliser l'API `fixture.componentRef.setInput()`. |
+| Empêcher le clic de traverser (`stopPropagation`) | J'ai dû mocker l'objet `$event` dans mes tests : `{ stopPropagation: jasmine.createSpy() }`. |
+| Tester `window.confirm` | Utilisation de `spyOn` pour court-circuiter la pop-up du navigateur. |
+
+#### 9. Points à approfondir
+
+* [ ] Tests d'intégration (Flow complet Parent <-> Enfant).
+* [ ] Tests E2E avec Cypress ou Playwright.
+* [ ] Tester les appels HTTP réels (HttpClientTestingModule).
+
+### 🎯 Projet : Tests TaskBoard Pro
+
+#### Tests implémentés
+
+* [x] **TaskService**
+* ✅ `addTask()` : Vérifie l'ajout dans le Subject.
+* ✅ `deleteTask()` : Vérifie la suppression par ID.
+* ✅ Logique de tri (Priorité > Date).
+
+
+* [x] **TasksPageComponent** (Dōjō)
+* ✅ Affichage des cartes via le Signal.
+* ✅ Interaction avec les boutons (Supprimer, Highlight).
+
+
+* [x] **TaskEditComponent** (Modale)
+* ✅ Validation de formulaire.
+* ✅ Émission des outputs (`saveTask`, `cancel`).
+
+#### Résultats
+
+* **Tests réussis** : 18 / 18
+* **Code coverage** : Excellent (Logique critique couverte).
+* **Temps d'exécution** : < 0.5 secondes.
+
 ### 2. Composants Dynamiques & Structure Features
 
 L'application est structurée par "fonctionnalités" (`features/`) plutôt que par type technique.

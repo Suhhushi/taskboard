@@ -1,91 +1,68 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
-import { Observable } from 'rxjs';
-
-// Services
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { TaskService, Task } from '../../../core/services/task.service';
 import { NotificationService } from '../../../core/services/notification.service';
-
-// Composants Enfants
 import { TaskStatsComponent } from '../task-stats.component/task-stats.component';
-// Note : On importe aussi TaskData pour le typage
 import { TaskEditComponent, TaskData } from '../task-edit.component/task-edit.component';
 
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [CommonModule, TaskStatsComponent, FormsModule, TaskEditComponent], 
+  imports: [FormsModule, TaskStatsComponent, TaskEditComponent],
   templateUrl: './tasks-page.component.html',
-  styleUrls: ['./tasks-page.component.css']
+  styleUrls: ['./tasks-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TasksPageComponent {
-  // Flux de données (Observables)
-  tasks$: Observable<Task[]>;
-  notification$: Observable<string | null>;
+  private taskService = inject(TaskService);
+  private notifService = inject(NotificationService);
 
-  // Objet pour le formulaire d'ajout
-  newTask = {
-    title: '',
-    description: ''
-  };
+  tasks = toSignal(this.taskService.tasks$, { initialValue: [] });
+  notification = toSignal(this.notifService.message$);
 
-  // Tâche en cours d'édition (null = pas de modale affichée)
-  editingTask: Task | null = null;
+  editingTask = signal<Task | null>(null);
 
-  constructor(
-    private taskService: TaskService, 
-    private notifService: NotificationService
-  ) {
-    // Connexion aux flux des services
-    this.tasks$ = this.taskService.tasks$;
-    this.notification$ = this.notifService.message$;
-  }
+  newTask = { title: '', description: '' };
 
-  // --- ACTIONS PRINCIPALES ---
 
-  addTask(): void {
+  onAddTask(): void {
     if (!this.newTask.title.trim()) return;
-    
+
     this.taskService.addTask(this.newTask.title, this.newTask.description);
-    
-    // Reset du formulaire
     this.newTask = { title: '', description: '' };
   }
 
-  deleteTask(id: number): void { 
-    this.taskService.deleteTask(id); 
-  }
-
-  toggleComplete(id: number): void { 
-    this.taskService.toggleComplete(id); 
-  }
-  
-  toggleHighlight(id: number): void {
-    this.taskService.toggleHighlight(id);
-  }
-
-  // --- GESTION DE L'ÉDITION (MODALE) ---
-
-  // 1. Ouvre la modale en chargeant la tâche
-  startEdit(task: Task): void {
-    this.editingTask = task; 
-  }
-
-  // 2. Sauvegarde : Reçoit l'objet {title, description} de l'enfant
-  onSaveEdit(data: TaskData): void {
-    if (this.editingTask) {
-      this.taskService.updateTaskData(
-        this.editingTask.id, 
-        data.title, 
-        data.description
-      );
-      this.editingTask = null; // Ferme la modale
+  onDelete(event: Event, id: number): void {
+    event.stopPropagation();
+    if (confirm('Confirmer l\'élimination de cette cible ?')) {
+      this.taskService.deleteTask(id);
     }
   }
 
-  // 3. Annulation
-  cancelEdit(): void {
-    this.editingTask = null;
+  onToggleHighlight(event: Event, id: number): void {
+    event.stopPropagation();
+    this.taskService.toggleHighlight(id);
+  }
+
+  onToggleComplete(id: number): void {
+    this.taskService.toggleComplete(id);
+  }
+
+  onStartEdit(event: Event, task: Task): void {
+    event.stopPropagation();
+    this.editingTask.set(task);
+  }
+
+  onSaveEdit(data: TaskData): void {
+    const currentTask = this.editingTask();
+    if (currentTask) {
+      this.taskService.updateTaskData(currentTask.id, data.title, data.description);
+      this.closeEdit();
+    }
+  }
+
+  closeEdit(): void {
+    this.editingTask.set(null);
   }
 }

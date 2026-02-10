@@ -1,30 +1,37 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { map, Observable } from 'rxjs';
+import { Component, ChangeDetectionStrategy ,computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TaskService } from '../../../core/services/task.service';
+
+interface TaskStats {
+  total: number;
+  completed: number;
+  active: number;
+  percent: number;
+}
 
 @Component({
   selector: 'app-task-stats',
   standalone: true,
-  imports: [CommonModule],
+  imports: [], 
   templateUrl: './task-stats.component.html',
-  styleUrls: ['./task-stats.component.css']
+  styleUrls: ['./task-stats.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskStatsComponent {
-  stats$: Observable<any>;
+  private taskService = inject(TaskService);
 
-  constructor(private taskService: TaskService) {
-    this.stats$ = this.taskService.tasks$.pipe(
-      map(tasks => {
-        const total = tasks.length;
-        const completed = tasks.filter(t => t.completed).length;
-        return {
-          total,
-          completed,
-          active: total - completed,
-          percent: total > 0 ? Math.round((completed / total) * 100) : 0
-        };
-      })
-    );
-  }
+  private tasks = toSignal(this.taskService.tasks$, { initialValue: [] });
+
+  stats = computed<TaskStats>(() => {
+    const taskList = this.tasks();
+    const total = taskList.length;
+    const completed = taskList.filter(t => t.completed).length;
+
+    return {
+      total,
+      completed,
+      active: total - completed,
+      percent: total > 0 ? Math.round((completed / total) * 100) : 0
+    };
+  });
 }

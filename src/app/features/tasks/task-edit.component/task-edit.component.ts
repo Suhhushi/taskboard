@@ -1,7 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-// Interface pour typer proprement l'événement de sortie
 export interface TaskData {
   title: string;
   description: string;
@@ -12,29 +11,36 @@ export interface TaskData {
   standalone: true,
   imports: [FormsModule],
   templateUrl: './task-edit.component.html',
-  styleUrls: ['./task-edit.component.css']
+  styleUrls: ['./task-edit.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskEditComponent implements OnInit {
-  @Input() initialTitle: string = '';
-  @Input() initialDescription: string = ''; 
-  
-  @Output() saveTask = new EventEmitter<TaskData>(); 
-  @Output() cancel = new EventEmitter<void>();
+export class TaskEditComponent {
+  initialTitle = input.required<string>();
+  initialDescription = input<string>('');
 
-  newTitle: string = '';
-  newDescription: string = '';
+  saveTask = output<TaskData>();
+  cancel = output<void>();
+
+  newTitle = '';
+  newDescription = '';
 
   ngOnInit() {
-    this.newTitle = this.initialTitle;
-    this.newDescription = this.initialDescription || '';
+    this.newTitle = this.initialTitle();
+    this.newDescription = this.initialDescription();
   }
 
-  save() {
-    if (this.newTitle.trim()) {
+  onSave(): void {
+    const trimmedTitle = this.newTitle.trim();
+    
+    if (trimmedTitle) {
       this.saveTask.emit({
-        title: this.newTitle,
+        title: trimmedTitle,
         description: this.newDescription
       });
     }
+  }
+
+  onCancel(): void {
+    this.cancel.emit();
   }
 }

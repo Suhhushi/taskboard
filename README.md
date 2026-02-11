@@ -149,12 +149,6 @@ ng test --code-coverage    # Générer le rapport de couverture (dossier /covera
 | Empêcher le clic de traverser (`stopPropagation`) | J'ai dû mocker l'objet `$event` dans mes tests : `{ stopPropagation: jasmine.createSpy() }`. |
 | Tester `window.confirm` | Utilisation de `spyOn` pour court-circuiter la pop-up du navigateur. |
 
-#### 9. Points à approfondir
-
-* [ ] Tests d'intégration (Flow complet Parent <-> Enfant).
-* [ ] Tests E2E avec Cypress ou Playwright.
-* [ ] Tester les appels HTTP réels (HttpClientTestingModule).
-
 ### 🎯 Projet : Tests TaskBoard Pro
 
 #### Tests implémentés

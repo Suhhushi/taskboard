@@ -1,318 +1,374 @@
 :host {
-  --card-bg: #fff;
-  --indigo: #394e6a;
-  --gold: #f59e0b;
-  --red: #b91c1c;
-  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --paper-bg: #f9f7f1; /* Couleur papier de riz */
+  --paper-border: #e2d5b5;
+  --ink-color: #2b2b2b;
+  --hanko-red: #c92a2a;
+  --gold-accent: #d4af37;
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+  
+  display: block;
+  min-height: 100vh;
+  background-color: #f0f2f5; /* Fond de page gris doux pour contraste */
+  padding-bottom: 4rem;
 }
 
-/* --- Layout Grille --- */
-.samurai-grid {
-  display: grid;
-  /* Grille responsive : autant de colonnes que possible, min 280px de large */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 1rem 0;
+.zen-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
-/* --- La Carte Samouraï --- */
-.samurai-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden; /* Pour que l'image ne dépasse pas */
+/* --- HEADER --- */
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header-section h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.5rem;
+  color: var(--ink-color);
+  margin-bottom: 0.5rem;
+}
+
+.japanese-subtitle {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--gold-accent);
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.subtitle {
+  font-style: italic;
+  color: #666;
+}
+
+/* --- LE ROULEAU (FORMULAIRE) --- */
+.scroll-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 4rem auto;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+.mission-scroll-form {
+  background: var(--paper-bg);
+  /* Texture subtile de papier */
+  background-image: linear-gradient(to bottom, transparent 95%, rgba(0,0,0,0.02) 100%),
+                    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4a373' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  
+  padding: 2rem;
+  z-index: 10;
+  position: relative;
+}
+
+/* Les bouts du rouleau (Effet 3D bois) */
+.roll-end {
+  height: 12px;
+  background: linear-gradient(to right, #8b4513, #a0522d, #8b4513);
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 20;
+}
+.roll-end.top { margin-bottom: -1px; }
+.roll-end.bottom { margin-top: -1px; }
+
+.input-wrapper {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.input-wrapper label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.zen-input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  background: transparent;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  box-sizing: border-box; /* Important pour éviter les dépassements */
+}
+
+.zen-input:focus {
+  outline: none;
+  border-bottom-color: var(--ink-color);
+  background: rgba(255,255,255,0.4);
+}
+
+/* --- BOUTON SCEAU (HANKO) --- */
+.seal-wrapper {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-hanko-seal {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--hanko-red);
+  color: rgba(255,255,255,0.9);
+  border: 4px solid #a61b1b; /* Bord plus foncé */
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  position: relative;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: var(--shadow-soft);
-  cursor: pointer;
-  user-select: none;
-  
-  /* Bordure décorative à gauche (style reliure japonaise) */
-  border-left: 6px solid var(--indigo);
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 
+    inset 0 4px 10px rgba(0,0,0,0.2), /* Ombre interne (creux) */
+    0 5px 15px rgba(185, 28, 28, 0.4); /* Ombre portée */
 }
+
+.btn-hanko-seal:hover:not(:disabled) {
+  transform: scale(1.05) rotate(5deg);
+  background-color: #d32f2f;
+}
+
+.btn-hanko-seal:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.btn-hanko-seal:disabled {
+  background-color: #ccc;
+  border-color: #bbb;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.kanji-seal { font-size: 1.2rem; line-height: 1; opacity: 0.7; }
+.text-seal { font-size: 0.7rem; font-weight: bold; letter-spacing: 1px; margin-top: 2px; }
+
+/* --- CARTES --- */
+.samurai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.samurai-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation-duration: 0.5s;
+}
+
+/* Animation d'entrée */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation-name: fadeInUp; }
 
 .samurai-card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
-/* Visuel (Image du haut) */
 .card-visual {
-  height: 120px;
-  background-color: #f3f4f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 140px;
   overflow: hidden;
+  background: #f0f0f0;
   position: relative;
-  /* Motif de fond japonais subtil (vagues) */
-  background-image: radial-gradient(#394e6a 1px, transparent 1px);
-  background-size: 10px 10px;
-  opacity: 0.9;
+  border-bottom: 1px solid #eee;
 }
 
 .samurai-img {
-  height: 90%;
-  transition: transform 0.4s ease;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
 }
+.samurai-card:hover .samurai-img { transform: scale(1.05); }
 
-.samurai-card:hover .samurai-img {
-  transform: scale(1.1) rotate(5deg); /* Petit effet zoom et rotation */
-}
-
-/* Contenu */
 .card-content {
   padding: 1.2rem;
-  flex: 1; /* Pousse les actions vers le bas */
+  flex: 1;
+}
+
+.content-top {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
 }
 
 .task-title {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
+  color: var(--ink-color);
   margin: 0;
-  color: #2c3e50;
-  font-weight: 700;
-  cursor: pointer;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
-/* Badge Statut */
-.status-badge {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background-color: #e0f2fe;
-  color: var(--indigo);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--gold-accent);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.status-dot.done { background-color: #10b981; }
+
+.task-desc {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
 }
 
-/* --- Actions (Bas de carte) --- */
 .card-actions {
   display: flex;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid #f5f5f5;
 }
 
 .action-btn {
   flex: 1;
+  background: white;
   border: none;
-  background: transparent;
   padding: 12px;
   cursor: pointer;
-  font-size: 1.1rem;
   transition: background 0.2s;
-  border-right: 1px solid #f3f4f6;
+  font-size: 1.1rem;
 }
+.action-btn:not(:last-child) { border-right: 1px solid #f5f5f5; }
 
-.action-btn:last-child {
-  border-right: none;
-}
+.action-btn:hover { background-color: #fafafa; }
+.action-btn.gold.active-star { color: var(--gold-accent); }
+.action-btn.gold:hover { color: var(--gold-accent); }
+.action-btn.red:hover { color: var(--hanko-red); background-color: #fff5f5; }
 
-.action-btn:hover {
-  background-color: #f9fafb;
-}
+/* États spécifiques */
+/* --- ÉTAT "VAINCU" (Modifications Majeures) --- */
 
-/* Couleurs spécifiques au survol */
-.action-btn.gold:hover { color: var(--gold); background: #fffbeb; }
-.action-btn.red:hover { color: var(--red); background: #fef2f2; }
-.action-btn.ink:hover { color: var(--indigo); background: #eff6ff; }
-
-/* --- État "Terminé" (Vaincu) --- */
 .completed-card {
-  border-left-color: #9ca3af; /* Gris */
+  /* 1. On ternit la carte (effet vieux papier) */
+  background-color: #f4f4f4;
+  border-left-color: #787878; /* Bordure grise */
+  transform: scale(0.98); /* Légèrement plus petite */
   opacity: 0.8;
 }
 
-.completed-card .card-visual {
-  filter: grayscale(100%); /* Image en noir et blanc */
-  background-color: #e5e7eb;
-}
-
+/* 2. Le texte est barré (Classique mais efficace) */
 .completed-card .task-title {
   text-decoration: line-through;
-  color: #9ca3af;
+  text-decoration-color: var(--hanko-red); /* Barre rouge */
+  text-decoration-thickness: 2px;
+  color: #888;
 }
 
-.completed-card .status-badge.done {
-  background-color: #d1d5db;
-  color: #4b5563;
+.completed-card .task-desc {
+  color: #aaa;
 }
 
-/* Ajustements globaux (Header etc restants du code précédent) */
-.zen-container { padding: 40px; }
-.input-group-zen { max-width: 600px; margin: 0 auto 3rem auto; }
-
-/* ... (Garder les variables précédentes :host) ... */
-
-/* --- NOUVEAU FORMULAIRE (Style Parchemin) --- */
-.mission-scroll-form {
-  background: #fdfbf7;
-  border: 1px solid #d4a373;
-  border-top: 8px solid #d4a373; /* Bois en haut */
-  border-bottom: 8px solid #d4a373; /* Bois en bas */
-  padding: 1.5rem;
-  max-width: 600px;
-  margin: 0 auto 3rem auto;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+/* 3. L'image passe en Noir & Blanc + COUP DE KATANA */
+.completed-card .card-visual {
+  filter: grayscale(100%) contrast(1.2);
   position: relative;
-  text-align: center;
 }
 
-.mission-scroll-form h3 {
-  margin-top: 0;
-  color: var(--indigo);
-  font-family: var(--font-main);
-  border-bottom: 1px dashed #ccc;
-  padding-bottom: 10px;
-}
-
-.form-group { margin-bottom: 1rem; }
-
-.zen-input {
-  width: 90%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  background: rgba(255,255,255,0.8);
-  font-family: var(--font-main);
-  border-radius: 4px;
-  transition: all 0.3s;
-}
-
-.zen-input:focus {
-  border-color: var(--indigo);
-  box-shadow: 0 0 0 3px rgba(57, 78, 106, 0.1);
-  outline: none;
-}
-
-.title-input { font-size: 1.1rem; font-weight: bold; }
-.desc-input { resize: vertical; font-size: 0.9rem; }
-
-.btn-hanko-large {
-  background-color: var(--red-seal);
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 50px; /* Oblongue comme un sceau */
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(185, 28, 28, 0.3);
-  transition: transform 0.1s;
-  letter-spacing: 1px;
-}
-.btn-hanko-large:hover { background-color: #991b1b; }
-.btn-hanko-large:active { transform: scale(0.95); }
-
-
-/* --- DESCRIPTION DANS LA CARTE --- */
-.task-desc {
-  font-size: 0.9rem;
-  color: #666;
-  font-style: italic;
-  margin: 5px 0 15px 0;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limite à 3 lignes */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-
-/* --- ILLUMINATION (Highlight) --- */
-/* Quand isHighlighted est true */
-.illuminated-card {
-  border-color: var(--gold);
-  border-left: 6px solid var(--gold);
-  /* L'effet de halo doré */
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4), 0 0 5px rgba(245, 158, 11, 0.2);
-  transform: translateY(-5px); /* Légèrement soulevée */
-  z-index: 10;
-  animation: pulseGlow 3s infinite alternate;
-}
-
-@keyframes pulseGlow {
-  from { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
-  to { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
-}
-
-/* Aura visuelle sur l'image */
-.glow-aura {
+/* L'effet "Slash" (Coup de sabre) sur l'image */
+.completed-card .card-visual::after {
+  content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+  
+  /* Un trait diagonal rouge sang */
+  background: linear-gradient(
+    45deg, 
+    transparent 48%, 
+    rgba(201, 42, 42, 0.8) 49%, 
+    rgba(201, 42, 42, 0.8) 51%, 
+    transparent 52%
+  );
+  z-index: 5;
   pointer-events: none;
 }
 
-.active-star {
-  text-shadow: 0 0 5px var(--gold);
-  transform: scale(1.2);
-}
-
-/* --- OVERLAY EDIT --- */
-.modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 2000;
-  backdrop-filter: blur(2px);
-}
-
-/* --- Notification Flottante (Style Décret Impérial) --- */
-.notification-scroll {
-  /* 1. Positionnement Fixe : Reste visible même si on scrolle */
-  position: fixed;
-  top: 80px; /* Un peu en dessous de la Navbar */
-  right: 20px;
-  z-index: 9999; /* Au-dessus de TOUT (même les modales) */
-
-  /* 2. Style Visuel */
-  background-color: #394e6a; /* Fond Indigo profond */
-  color: #fff; /* Texte blanc */
+/* 4. LE TAMPON "VAINCU" (Stamp Overlay) */
+.completed-card::after {
+  content: 'VAINCU'; /* Le texte du tampon */
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg) scale(1.2);
+  
+  /* Style du tampon */
   font-family: 'Noto Serif JP', serif;
-  font-weight: 500;
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: rgba(185, 28, 28, 0.15); /* Rouge transparent */
+  border: 4px solid rgba(185, 28, 28, 0.15);
+  padding: 0.2rem 1rem;
+  border-radius: 8px;
+  letter-spacing: 5px;
   
-  padding: 1rem 1.5rem;
-  border-radius: 4px;
+  pointer-events: none; /* Permet de cliquer à travers */
+  z-index: 10;
   
-  /* Bordure gauche rouge (Rappel du sceau) */
-  border-left: 6px solid #b91c1c; 
-  
-  /* Ombre portée pour l'effet de flottement */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  
-  /* Flexbox pour aligner l'icône et le texte */
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  
-  /* Animation */
-  animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  pointer-events: none; /* Permet de cliquer à travers si besoin (optionnel) */
+  /* Animation d'arrivée brutale */
+  animation: stampIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-.notification-scroll .symbol {
-  font-size: 1.5rem;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+/* Animation du tampon qui "frappe" la carte */
+@keyframes stampIn {
+  from { 
+    opacity: 0; 
+    transform: translate(-50%, -50%) rotate(-15deg) scale(3); /* Arrive de très près */
+  }
+  to { 
+    opacity: 1; 
+    transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+  }
 }
 
-/* Animation d'entrée depuis la droite avec un petit effet de rebond */
-@keyframes slideInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100%); /* Part de l'extérieur droit */
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0); /* Arrive à sa place */
-  }
+/* Changement du badge status */
+.completed-card .status-badge {
+  background-color: #e5e7eb;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
 }
+
+.illuminated-card {
+  border: 2px solid var(--gold-accent);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Modale */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(10, 14, 26, 0.8);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s;
+}
+
+/* Vide */
+.empty-dojo {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 4rem;
+  color: #999;
+}
+.empty-icon { font-size: 3rem; display: block; margin-bottom: 1rem; opacity: 0.5; }

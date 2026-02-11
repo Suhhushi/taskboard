@@ -1,0 +1,271 @@
+/* --- VARIABLES & GLOBALS --- */
+:host {
+  --zen-indigo-deep: #0a0e1a; /* Bleu nuit très profond */
+  --zen-indigo-light: #1a233a;
+  --zen-gold: #d4af37; /* Or antique */
+  --zen-gold-light: #f3e5ab;
+  --zen-cream: #f4f4f9;
+  --zen-ink: #2b2b2b;
+  
+  font-family: 'Noto Serif JP', serif;
+  color: var(--zen-cream);
+  display: block;
+  overflow-x: hidden;
+}
+
+.zen-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* --- SECTION 1: HERO --- */
+.hero-section {
+  position: relative;
+  min-height: 92vh; /* Presque plein écran */
+  display: flex;
+  align-items: center;
+  /* Image de fond dramatique (Temple japonais dans la brume) */
+  background: url('https://images.unsplash.com/photo-1528360983277-4e680739753e?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+  border-bottom: 3px solid var(--zen-gold);
+}
+
+/* Le filtre sombre par-dessus l'image pour rendre le texte lisible */
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 14, 26, 0.7),
+    var(--zen-indigo-deep) 95%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding-top: 4rem;
+}
+
+/* Le gros Kanji en arrière-plan */
+.shodo-brush-stroke {
+  position: absolute;
+  top: -80px;
+  left: -40px;
+  font-size: 12rem;
+  font-weight: 900;
+  color: var(--zen-gold);
+  opacity: 0.07;
+  pointer-events: none;
+  font-family: "Noto Serif JP", serif; /* Ou une police calligraphique si tu en as une */
+}
+
+.hero-title {
+  font-size: 4rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.highlight-gold {
+  color: var(--zen-gold);
+  position: relative;
+  display: inline-block;
+}
+
+/* Petit soulignement doré stylé */
+.highlight-gold::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: var(--zen-gold);
+  opacity: 0.3;
+  z-index: -1;
+  transform: skewX(-20deg);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+/* --- BOUTONS STYLE KATANA --- */
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.btn-katana {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+}
+
+/* Bouton Principal (Or) */
+.btn-katana.primary-btn, .btn-katana.gold-btn {
+  background: linear-gradient(135deg, var(--zen-gold), #b88a12);
+  color: var(--zen-indigo-deep);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-katana.primary-btn:hover, .btn-katana.gold-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+}
+
+.btn-katana .icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+/* Bouton Secondaire (Transparent) */
+.btn-katana.secondary-btn {
+  background: transparent;
+  color: var(--zen-cream);
+  border: 2px solid rgba(244, 244, 249, 0.3);
+}
+
+.btn-katana.secondary-btn:hover {
+  border-color: var(--zen-gold);
+  color: var(--zen-gold);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+
+/* --- SECTION 2: PILIERS --- */
+.pillars-section {
+  padding: 6rem 2rem;
+  background-color: var(--zen-cream);
+  color: var(--zen-ink);
+  position: relative;
+}
+
+/* Motif de vagues japonaises subtil en fond */
+.pillars-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0c22.09 0 40 17.91 40 40S62.09 80 40 80 0 62.09 0 40 17.91 0 40 0zm0 10c-16.57 0-30 13.43-30 30s13.43 30 30 30 30-13.43 30-30-13.43-30-30-30zm0 10c11.05 0 20 8.95 20 20s-8.95 20-20 20-20-8.95-20-20 8.95-20 20-20zm0 10c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10z' fill='%23000000' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sub-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.9rem;
+  color: var(--zen-gold);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: var(--zen-indigo-deep);
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+
+.pillar-card {
+  background: white;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  border-top: 3px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.pillar-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+  border-top-color: var(--zen-gold);
+}
+
+.card-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 900;
+  /* Effet d'encre dégradée */
+  background: -webkit-linear-gradient(45deg, var(--zen-indigo-deep), var(--zen-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pillar-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--zen-indigo-deep);
+}
+
+.pillar-card p {
+  color: #666;
+  line-height: 1.7;
+}
+
+/* --- SECTION 3: APPEL FINAL --- */
+.cta-final-section {
+  padding: 8rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--zen-indigo-light), var(--zen-indigo-deep));
+  position: relative;
+}
+
+.cta-final-section h2 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta-final-section p {
+  font-size: 1.3rem;
+  opacity: 0.8;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+  }
+  .btn-katana {
+    width: 100%;
+    justify-content: center;
+  }
+}

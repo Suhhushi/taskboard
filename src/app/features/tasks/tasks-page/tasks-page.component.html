@@ -1,115 +1,121 @@
 <div class="zen-container">
   
   @if (notification(); as msg) {
-    <div class="notification-scroll">
+    <div class="notification-scroll" role="alert">
       <span class="symbol">🀄</span> {{ msg }}
     </div>
   }
 
   <header class="header-section">
-    <h1>Dōjō des Tâches</h1>
-    <p class="subtitle">La clarté de l'esprit précède l'action</p>
+    <div class="title-group">
+      <h1>Dōjō des Tâches</h1>
+      <span class="japanese-subtitle">タスクの道場</span>
+    </div>
+    <p class="subtitle">"La clarté de l'esprit précède l'action précise."</p>
   </header>
 
-  <app-task-stats />
+  <section class="stats-wrapper">
+    <app-task-stats />
+  </section>
 
-  <div class="mission-scroll-form">
-    <h3>📜 Nouvel Ordre de Mission</h3>
+  <div class="scroll-container">
+    <div class="roll-end top"></div>
     
-    <div class="form-group">
-      <input type="text" 
-             [(ngModel)]="newTask.title" 
-             (keyup.enter)="onAddTask()"
-             placeholder="Titre de la mission..." 
-             class="zen-input title-input">
-    </div>
-    
-    <div class="form-group">
-      <textarea [(ngModel)]="newTask.description" 
-                (keydown.control.enter)="onAddTask()"
-                placeholder="Détails stratégiques (optionnel)..." 
-                rows="2" 
-                class="zen-input desc-input"></textarea>
+    <div class="mission-scroll-form">
+      <h3>📜 Nouvel Ordre de Mission</h3>
+      
+      <div class="input-wrapper">
+        <label>Objectif</label>
+        <input type="text" 
+               [(ngModel)]="newTask.title" 
+               (keyup.enter)="onAddTask()"
+               placeholder="Ex: Défendre le château du Nord..." 
+               class="zen-input title-input">
+      </div>
+      
+      <div class="input-wrapper">
+        <label>Stratégie</label>
+        <textarea [(ngModel)]="newTask.description" 
+                  (keydown.control.enter)="onAddTask()"
+                  placeholder="Détails tactiques..." 
+                  rows="2" 
+                  class="zen-input desc-input"></textarea>
+      </div>
+
+      <div class="seal-wrapper">
+        <button class="btn-hanko-seal" 
+                (click)="onAddTask()" 
+                [disabled]="!newTask.title.trim()"
+                title="Sceller l'ordre">
+          <span class="kanji-seal">承認</span>
+          <span class="text-seal">SCELLER</span>
+        </button>
+      </div>
     </div>
 
-    <button class="btn-hanko-large" (click)="onAddTask()" [disabled]="!newTask.title.trim()">
-      SCELLER L'ORDRE
-    </button>
+    <div class="roll-end bottom"></div>
   </div>
 
   @if (editingTask(); as task) {
-    <div class="modal-overlay">
-      <app-task-edit 
-        [initialTitle]="task.title" 
-        [initialDescription]="task.description || ''"
-        (saveTask)="onSaveEdit($event)"
-        (cancel)="closeEdit()">
-      </app-task-edit>
+    <div class="modal-backdrop" (click)="closeEdit()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <app-task-edit 
+          [initialTitle]="task.title" 
+          [initialDescription]="task.description || ''"
+          (saveTask)="onSaveEdit($event)"
+          (cancel)="closeEdit()">
+        </app-task-edit>
+      </div>
     </div>
   }
 
   <div class="samurai-grid">
-    
     @for (task of tasks(); track task.id) {
-      <div class="samurai-card" 
+      <div class="samurai-card fade-in-up" 
            (click)="onToggleComplete(task.id)"
            [class.completed-card]="task.completed"
            [class.illuminated-card]="task.isHighlighted"> 
            
         <div class="card-visual">
           <img [src]="'https://api.dicebear.com/9.x/adventurer/svg?seed=' + task.id + '&backgroundColor=b6e3f4,c0aede,d1d4f9'" 
-               alt="Samurai Avatar" 
+               alt="Avatar" 
+               loading="lazy"
                class="samurai-img">
-          
-          @if (task.isHighlighted) {
-            <div class="glow-aura"></div>
-          }
+          @if (task.isHighlighted) { <div class="glow-aura"></div> }
         </div>
 
         <div class="card-content">
-          <h3 class="task-title">{{ task.title }}</h3>
+          <div class="content-top">
+            <h3 class="task-title">{{ task.title }}</h3>
+            <span class="status-dot" [class.done]="task.completed"></span>
+          </div>
           
           @if (task.description) {
             <p class="task-desc">{{ task.description }}</p>
           }
-
-          <div class="tags">
-            <span class="status-badge" [class.done]="task.completed">
-              {{ task.completed ? 'Vaincu' : 'En cours' }}
-            </span>
-          </div>
         </div>
 
         <div class="card-actions">
           <button class="action-btn gold" 
                   (click)="onToggleHighlight($event, task.id)" 
-                  [class.active-star]="task.isHighlighted"
-                  title="Illuminer (Priorité)">
+                  [class.active-star]="task.isHighlighted">
             {{ task.isHighlighted ? '🌟' : '⭐' }}
           </button>
           
-          <button class="action-btn ink" 
-                  (click)="onStartEdit($event, task)" 
-                  title="Stratégie">
+          <button class="action-btn ink" (click)="onStartEdit($event, task)">
             ✒️
           </button>
           
-          <button class="action-btn red" 
-                  (click)="onDelete($event, task.id)" 
-                  title="Exécuter">
+          <button class="action-btn red" (click)="onDelete($event, task.id)">
             ⚔️
           </button>
         </div>
-
       </div>
     } @empty {
       <div class="empty-dojo">
-        <p>Le calme règne dans le dojo...</p>
+        <span class="empty-icon">🍃</span>
+        <p>Le vent souffle... Aucune mission à l'horizon.</p>
       </div>
     }
-  </div>
-  
-  <div class="footer-decoration">
-    <span class="wave-pattern"></span>
   </div>
 </div>

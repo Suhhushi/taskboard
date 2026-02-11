@@ -1,4 +1,4 @@
-# 🏯 TaskBoard Pro - Angular Modern Edition
+# TaskBoard Pro - Angular Modern Edition
 
 Ce projet est la réalisation du fil rouge "TaskBoard Pro". Il s'agit d'une application de gestion de tâches (To-Do List) développée avec **Angular (v17+)**.
 
@@ -6,7 +6,7 @@ L'application respecte les consignes des TP 1, 2 et 3 tout en intégrant une arc
 
 ---
 
-## 🚀 Installation et Démarrage
+## Installation et Démarrage
 
 1. **Cloner le projet** :
 ```bash
@@ -34,7 +34,7 @@ L'application sera accessible sur `http://localhost:4200/`.
 
 ---
 
-## 🛠️ TP 1 : Architecture et Routing
+## TP 1 : Architecture et Routing
 
 Mise en place du squelette de l'application et de la navigation.
 
@@ -55,7 +55,7 @@ ng new taskboard-pro --style=css
 
 ---
 
-## 🔄 TP 2 : Logique Réactive (RxJS)
+## TP 2 : Logique Réactive (RxJS)
 
 Implémentation du cœur réactif de l'application via le pattern **Service-as-a-Source-of-Truth**.
 
@@ -72,7 +72,7 @@ Implémentation du cœur réactif de l'application via le pattern **Service-as-a
 
 ---
 
-## 📦 TP 3 : Lazy Loading & Fonctionnalités Avancées
+## TP 3 : Lazy Loading & Fonctionnalités Avancées
 
 C'est dans cette séquence que l'application devient performante et riche en fonctionnalités.
 
@@ -90,7 +90,7 @@ Le Lazy Loading est une technique d'optimisation. Au lieu de charger toute l'app
 
 ```
 
-## 🧪 TP 4 : Tests Unitaires (Qualité & Robustesse)
+## TP 4 : Tests Unitaires (Qualité & Robustesse)
 
 #### 1. Pourquoi tester ?
 
@@ -149,7 +149,7 @@ ng test --code-coverage    # Générer le rapport de couverture (dossier /covera
 | Empêcher le clic de traverser (`stopPropagation`) | J'ai dû mocker l'objet `$event` dans mes tests : `{ stopPropagation: jasmine.createSpy() }`. |
 | Tester `window.confirm` | Utilisation de `spyOn` pour court-circuiter la pop-up du navigateur. |
 
-### 🎯 Projet : Tests TaskBoard Pro
+### Projet : Tests TaskBoard Pro
 
 #### Tests implémentés
 
@@ -221,6 +221,32 @@ L'application est structurée par "fonctionnalités" (`features/`) plutôt que p
 
 ---
 
+## TP 6 : Déploiement (CD)
+
+L'application est hébergée sur **GitHub Pages**.
+
+### Lien de la démo
+
+https://suhhushi.github.io/taskboard/#/home
+
+### Stratégie de Routing
+
+Pour garantir le fonctionnement du rafraîchissement (F5) sur un hébergeur statique, j'ai activé le **HashLocationStrategy**.
+
+* **Code** : `provideRouter(routes, withHashLocation())`
+* **Résultat** : Les URLs contiennent un dièse (`/#/tasks`), ce qui empêche le serveur de renvoyer une erreur 404 sur les sous-pages.
+
+### Procédure de déploiement
+
+J'utilise le package `angular-cli-ghpages` pour automatiser la mise en ligne.
+
+**Commande utilisée :**
+
+```bash
+ng deploy --base-href=/taskboard-pro/
+
+```
+
 ## Structure du Projet
 
 ```text
@@ -244,7 +270,7 @@ src/app/
 
 ---
 
-## 📝 Bilan Technique
+## Bilan Technique
 
 | Concept | Implémentation dans ce projet |
 | --- | --- |
